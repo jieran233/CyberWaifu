@@ -1,0 +1,22 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "kesshouban_v1.1.moc3",
+		"Textures": [
+			"kesshouban_v1.1.4096/texture_00.png"
+		],
+		"Physics": "kesshouban_v1.1.physics3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

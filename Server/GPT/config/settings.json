@@ -1,0 +1,11 @@
+{
+    "conversation": true,
+    "sentence": true,
+    "no-lf": true,
+    "no-prompt": true,
+    "answer-only": false,
+    "trans-ipt": "zh",
+    "trans-opt": "zh",
+    "trans-opt2": "jp",
+    "length": 12
+}
