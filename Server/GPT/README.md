@@ -1,10 +1,8 @@
-# CyberWaifu Server
+# CyberWaifu Server - <u>GPT</u>
 
-## Getting Started - Linux
+## Getting Started
 
-### GPT
-
-#### download model
+### download model
 
 Link    Model file size
 
@@ -18,22 +16,20 @@ Link    Model file size
 
 [EleutherAI/gpt-neox-20b · Hugging Face](https://huggingface.co/EleutherAI/gpt-neox-20b)    ～35GB!
 
-#### config model
+### configure model
 
 ```shell
-#git clone https://github.com/jieran233/CyberWaifu.git
-#cd CyberWaifu
+# git clone https://github.com/jieran233/CyberWaifu.git
+# cd CyberWaifu
 
 cd Server
 
 ln -s <path/to/gpt/model/folder> GPT/model
 ```
 
-#### create venv
+### create venv & install pip dependencies
 
-Before create venv, you have to install python first. Or using conda.
-
-(No matter what you using, Python **3.10** is Recommended)
+Before create venv, you have to install **python3.10** first. (or using conda environment)
 
 ```shell
 cd GPT
@@ -42,52 +38,9 @@ source venv/bin/activate
 
 # Update
 python -m pip install --upgrade setuptools wheel pip
-```
 
-conda
-
-```shell
-cd GPT
-conda create --name cyberwaifu-GPT python=3.10
-conda activate cyberwaifu-GPT
-
-# Update
-python -m pip install --upgrade setuptools wheel pip
-conda update -n base -c conda-forge conda
-```
-
-#### install pip dependencies
-
-> Reference: [https://huggingface.co/docs/transformers/installation](https://huggingface.co/docs/transformers/installation)
-
-CPU, pip
-
-```shell
-# conda deactivate
-# source venv/bin/activate
-
-pip install "transformers[torch]"
-```
-
-CUDA GPU, pip
-
-```shell
-# conda deactivate
-# source venv/bin/activate
-
-# Notice. Modify that url to match your CUDA version
-pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
-pip install transformers
-```
-
-CUDA GPU, conda
-
-```shell
-# conda activate cyberwaifu-GPT
-
-# Notice. Modify that command to match your CUDA version
-conda install pytorch torchvision torchaudio pytorch-cuda=11.3 -c pytorch -c nvidia
-conda install -c huggingface transformers
+# install pip dependencies
+pip install -r requirements.txt
 ```
 
 ### RUN GPT SERVER
@@ -102,71 +55,9 @@ python main.py
 # http://127.0.0.1:7210
 ```
 
-## TTS (tacotron2 or VITS)
-
-### download model
-
-### config model
-
-#### tacotron2
-
-```shell
-# tacotron2 model
-ln -s <path/to/tacotron2/model.ckpt> TTS/model/tacotron2/model.ckpt
-
-# hifigan model
-# rename to model.ckpt
-mv <path/to/hifigan/model.ckpt> <path/to/hifigan/model.ckpt>
-ln -s <path/to/hifigan/folder> TTS/model/hifigan
-```
-
-#### vits
-
-项目暂未实现VITS
-
-### create venv & install pip dependencies
-
-Before create venv, you have to install python first. Or using conda.
-
-(No matter what you using, Python **3.7** is Recommended)
-
-```shell
-cd TTS
-python3.7 -m venv venv
-source venv/bin/activate
-
-# Update
-python -m pip install --upgrade setuptools wheel pip
-
-pip install -r requirements.txt
-```
-
-### RUN TTS SERVER
-
-```shell
-# conda deactivate
-
-cd CyberWaifu/Server/TTS
-source venv/bin/activate
-
-python main.py
-# http://127.0.0.1:7211
-```
-
-## Live2D
-
-```shell
-cd CyberWaifu/Server/Live2D
-
-python -m http.server
-# http://127.0.0.1:8000
-```
-
 ## Config file Manual
 
-### GPT
-
-#### config/settings.json
+### config/settings.json
 
 |                  |                                               |                                                                                                             |
 | ---------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
@@ -180,13 +71,13 @@ python -m http.server
 | `"trans-opt2"`   | `"zh"` `"cht"` `"jp"` `"kor"`, etc. or `null` | 第二种语言翻译输出。调用WebAPI翻译生成的文本为`指定语言`（使用百度翻译，需在`config/api.json`中填写您的APPID和密钥）https://api.fanyi.baidu.com/doc/21 |
 | `"length"`       | int                                           | 生成的文本的长度。min_length = length * imax_length = length * 2 * i                                                 |
 
-#### config/api.json
+### config/api.json
+
+appid & key for baidu translator
 
 Ref. [百度翻译开放平台](https://api.fanyi.baidu.com/manage/developer)
 
 ## API Manual
-
-### GPT
 
 请求
 
@@ -216,44 +107,21 @@ http://127.0.0.1:7210/<prompt>
 }
 ```
 
-### TTS
-
-请求
-
-```
-# GET or POST
-# 需要进行百分号转义，别忘了百分号转义的保留字也要转义
-http://127.0.0.1:7211/<prompt>
-
-# e.g.
-http://127.0.0.1:7211/%E5%AE%9F%E3%81%AF%E3%80%81%E3%81%9A%E3%81%A3%E3%81%A8%E5%A5%BD%E3%81%8D%E3%81%A0%E3%81%A3%E3%81%9F
-```
-
-返回
-
-```
-# redirect to generated wav file
-http://127.0.0.1:7211/static/<uuid1>.wav
-
-# e.g.
-http://127.0.0.1:7211/static/341e2fb0-87e3-11ed-9b59-a08069f51b76.wav
-```
-
 ## References
 
-[EleutherAI/gpt-neo-125M · Hugging Face](https://huggingface.co/EleutherAI/gpt-neo-125M)
+**[EleutherAI/gpt-neo-125M · Hugging Face](https://huggingface.co/EleutherAI/gpt-neo-125M)**
 
-[Transformers Installation](https://huggingface.co/docs/transformers/installation)
+**[Transformers Installation](https://huggingface.co/docs/transformers/installation)**
 
-[GPT Neo Document](https://huggingface.co/docs/transformers/model_doc/gpt_neo)
+**[GPT Neo Document](https://huggingface.co/docs/transformers/model_doc/gpt_neo)**
 
 [GitHub - luoyily/MoeTTS: Speech synthesis model /inference GUI repo for galgame characters based on Tacotron2, Hifigan and VITS](https://github.com/luoyily/MoeTTS)
 
-[快速上手 &#8212; Flask 中文文档 (2.1.2)](https://dormousehole.readthedocs.io/en/2.1.2/quickstart.html)
+**[快速上手 &#8212; Flask 中文文档 (2.1.2)](https://dormousehole.readthedocs.io/en/2.1.2/quickstart.html)**
 
-[learn-python3/do_flask.py at master · michaelliao/learn-python3 · GitHub](https://github.com/michaelliao/learn-python3/blob/master/samples/web/do_flask.py)
+**[learn-python3/do_flask.py at master · michaelliao/learn-python3 · GitHub](https://github.com/michaelliao/learn-python3/blob/master/samples/web/do_flask.py)**
 
-[Documents - 百度翻译开放平台](https://api.fanyi.baidu.com/doc/21)
+**[Documents - 百度翻译开放平台](https://api.fanyi.baidu.com/doc/21)**
 
 [GitHub - jieran233/Live2d-model](https://github.com/jieran233/Live2d-model)
 

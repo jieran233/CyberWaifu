@@ -31,7 +31,8 @@ class Utils:
             text = text.replace(i[0], i[1])
         return text
 
-    def translate(self, query, target, source='en'):
+    def translate_baidu(self, query, target, source='en'):
+        raw_text = query
         app_id = config.read('api', 'appid')
         key = config.read('api', 'key')
         salt = str(random.randint(1000000000, 9999999999))  # 文档中示例的salt为十位随机数
@@ -40,11 +41,35 @@ class Utils:
 
         api = 'https://fanyi-api.baidu.com/api/trans/vip/translate?q={}&from={}&to={}&appid={}&salt={}&sign={}'.format(
             self.url_text_encode(query), source, target, app_id, salt, sign)  # 请求URL中的query需要进行百分号编码
-        r = requests.get(api)
+
+        i = 0
+        code = 0
+        max_retry = 10
+        while code != 200:  # 没有成功就一直重试
+            if i == 0:
+                print(code)
+            else:
+                print('Retry {}'.format(str(i)))
+                sleep(1)
+
+            try:
+                r = requests.get(api)
+                code = r.status_code
+            except Exception as e:
+                code = -1
+                print(e.args)
+            print(code)
+
+            if i > max_retry:
+                print('Failed')
+                return raw_text
+            i = i + 1
+
         j = json.loads(r.text)
         # print(j)
         if 'error_code' in j:
-            return "Translation error. code:{}, msg:{}".format(j['error_code'], j['error_msg'])
+            print("Translation error. code:{}, msg:{}".format(j['error_code'], j['error_msg']))
+            return raw_text
         return j['trans_result'][0]['dst']
 
 
@@ -52,7 +77,7 @@ def process(prompt):
     # 前处理
     if config.read('settings', 'trans-ipt') is not None:  # 翻译输入
         print(":: Translating input...")
-        prompt = utils.translate(prompt, 'en', config.read('settings', 'trans-ipt'))
+        prompt = utils.translate_baidu(prompt, 'en', config.read('settings', 'trans-ipt'))
         print(prompt)
 
     if config.read('settings', 'conversation') is True:  # 对话模式
@@ -107,12 +132,12 @@ def process(prompt):
         tr = config.read('settings', 'trans-opt')
         if tr is not None:  # 翻译输出
             print(":: Translating output to {}...".format(tr))
-            txt_trans = utils.translate(txt, tr)
+            txt_trans = utils.translate_baidu(txt, tr)
 
             tr_2 = config.read('settings', 'trans-opt2')
             if tr_2 is not None:  # 翻译输出2
                 print(":: Translating output to {}...".format(tr_2))
-                txt_trans_2 = utils.translate(txt, tr_2)
+                txt_trans_2 = utils.translate_baidu(txt, tr_2)
                 # 返回 JSON
                 return json.dumps({
                     "raw": pre_process_json(txt),

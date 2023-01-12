@@ -16,18 +16,33 @@ class Config:
         return self.dicts[file][key]
 
 
-def translate(query, target, source='en'):
+def translate_baidu(query, target, source='en'):
     app_id = config.read('api', 'appid')
     key = config.read('api', 'key')
-    salt = str(random.randint(1000000000, 9999999999))
-    sign = app_id + query + salt + key
-    sign = hashlib.md5(sign.encode('utf-8')).hexdigest()
+    salt = str(random.randint(1000000000, 9999999999))  # 文档中示例的salt为十位随机数
+    sign = app_id + query + salt + key  # 签名中的query不进行百分号编码
+    sign = hashlib.md5(sign.encode('utf-8')).hexdigest()  # 三步缺一不可
 
     api = 'https://fanyi-api.baidu.com/api/trans/vip/translate?q={}&from={}&to={}&appid={}&salt={}&sign={}'.format(
-        query, source, target, app_id, salt, sign)
-    r = requests.get(api)
+        self.url_text_encode(query), source, target, app_id, salt, sign)  # 请求URL中的query需要进行百分号编码
+
+    i = 0
+    code = 0
+    max_retry = 10
+    while code != 200:  # 没有成功就一直重试
+        try:
+            r = requests.get(api)
+        except Exception as e:
+            code = -1
+            print(e.args)
+        code = r.status_code
+        print(r.status_code)
+        i = i + 1
+
     j = json.loads(r.text)
     # print(j)
+    if 'error_code' in j:
+        return "Translation error. code:{}, msg:{}".format(j['error_code'], j['error_msg'])
     return j['trans_result'][0]['dst']
 
 
@@ -52,7 +67,7 @@ def main():
         prompt = option.prompt
     else:
         print(":: Translating...")
-        prompt = translate(option.prompt, 'en', option.trans_ipt)
+        prompt = translate_baidu(option.prompt, 'en', option.trans_ipt)
         print(prompt)
     if option.conversation:
         prompt = "My friend asked me \"{}\", I answered: \"".format(prompt)
@@ -84,7 +99,7 @@ def main():
         if option.trans_opt is not None:
             print(":: Translating...")
             t_lang = option.trans_opt
-            txt_trans = translate(txt, t_lang)
+            txt_trans = translate_baidu(txt, t_lang)
 
         if sys.platform == 'win32':
             os.system('cls')

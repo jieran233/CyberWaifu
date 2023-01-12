@@ -252,6 +252,12 @@ if __name__ == '__main__':
     global wav_folder
     wav_folder = '.cache'
 
+    # 创建缓存文件夹
+    try:
+        os.mkdir(wav_folder)
+    except Exception as e:
+        print(e.args)
+
     # 清理缓存
     print(":: Cleaning cache...")
     for i in os.listdir(wav_folder):
@@ -260,12 +266,6 @@ if __name__ == '__main__':
             os.remove(os.path.join(wav_folder, i))
         except Exception as e:
             print(e.args)
-
-    # 创建缓存文件夹
-    try:
-        os.mkdir(wav_folder)
-    except Exception as e:
-        print(e.args)
 
     app = QApplication(sys.argv)
     mainWindow = Ui_MainWindow()

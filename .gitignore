@@ -153,13 +153,10 @@ cython_debug/
 
 
 # CyberWaifu
-# 软链接
 model
 venv
-
 model/
 venv/
-
 api.json
 test/
 static/
