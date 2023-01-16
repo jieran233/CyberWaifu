@@ -10,7 +10,7 @@
 
 ## Read more
 
-[./Server/GPT/README.md](https://github.com/jieran233/CyberWaifu/blob/main/Server/README.md)
+[./Server/GPT/README.md](https://github.com/jieran233/CyberWaifu/blob/main/Server/GPT/README.md)
 
 [./Server/TTS/README.md](https://github.com/jieran233/CyberWaifu/blob/main/Server/TTS/README.md)
 
