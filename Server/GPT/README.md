@@ -59,17 +59,25 @@ python main.py
 
 ### config/settings.json
 
-|                  |                                               |                                                                                                             |
-| ---------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `"conversation"` | `true`or`false`                               | 对话模式。完善prompt以适应[对话]场景                                                                                      |
-| `"sentence"`     | `true`or`false`                               | 截取整句。丢弃生成的文本中最后一个出现的句点后面的内容（如果生成的文本中不存在句点则会尝试继续生成直到它出现）                                                     |
-| `no-lf`          | `true`or`false`                               | 丢弃生成的文本中所有的换行符                                                                                              |
-| `"no-prompt"`    | `true`or`false`                               | 丢弃生成的文本中包含的输入的内容（兼容输入输出翻译）                                                                                  |
-| `"answer-only"`  | `true`or`false`                               | 对话模式下，生成的文本仅保留回答的内容（需要以下2项为`true`：`"conversation"` `"no-prompt"`）                                           |
-| `"trans-ipt"`    | `"zh"` `"cht"` `"jp"` `"kor"`, etc. or `null` | 翻译输入。调用WebAPI将输入的文本从`指定语言`翻译为英语（使用百度翻译，需在`config/api.json`中填写您的APPID和密钥）https://api.fanyi.baidu.com/doc/21  |
-| `"trans-opt"`    | `"zh"` `"cht"` `"jp"` `"kor"`, etc. or `null` | 翻译输出。调用WebAPI翻译生成的文本为`指定语言`（使用百度翻译，需在`config/api.json`中填写您的APPID和密钥）https://api.fanyi.baidu.com/doc/21      |
-| `"trans-opt2"`   | `"zh"` `"cht"` `"jp"` `"kor"`, etc. or `null` | 第二种语言翻译输出。调用WebAPI翻译生成的文本为`指定语言`（使用百度翻译，需在`config/api.json`中填写您的APPID和密钥）https://api.fanyi.baidu.com/doc/21 |
-| `"length"`       | int                                           | 生成的文本的长度。min_length = length * imax_length = length * 2 * i                                                 |
+|                  |                 |                                                                   |
+| ---------------- | --------------- | ----------------------------------------------------------------- |
+| `"conversation"` | `true`or`false` | 对话模式。完善prompt以适应[对话]场景                                            |
+| `"sentence"`     | `true`or`false` | 截取整句。丢弃生成的文本中最后一个出现的句点后面的内容（如果生成的文本中不存在句点则会尝试继续生成直到它出现）           |
+| `no-lf`          | `true`or`false` | 丢弃生成的文本中所有的换行符                                                    |
+| `"no-prompt"`    | `true`or`false` | 丢弃生成的文本中包含的输入的内容（兼容输入输出翻译）                                        |
+| `"answer-only"`  | `true`or`false` | 对话模式下，生成的文本仅保留回答的内容（需要以下2项为`true`：`"conversation"` `"no-prompt"`） |
+| `"length"`       | int             | 生成的文本的长度。min_length = length * imax_length = length * 2 * i       |
+|                  |                 |                                                                   |
+|                  |                 |                                                                   |
+|                  |                 |                                                                   |
+|                  |                 |                                                                   |
+
+
+
+| `"trans-ipt"`  | `"zh"` `"cht"` `"jp"` `"kor"`, etc. or `null` | 翻译输入。调用WebAPI将输入的文本从`指定语言`翻译为英语`en`（使用百度翻译，需在`config/api.json`中填写您的APPID和密钥）https://api.fanyi.baidu.com/doc/21 |
+| -------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `"trans-opt"`  | `"zh"` `"cht"` `"jp"` `"kor"`, etc. or `null` | 翻译输出。调用WebAPI翻译生成的文本为`指定语言`（使用百度翻译，需在`config/api.json`中填写您的APPID和密钥）https://api.fanyi.baidu.com/doc/21         |
+| `"trans-opt2"` | `"zh"` `"cht"` `"jp"` `"kor"`, etc. or `null` | 第二种语言翻译输出。调用WebAPI翻译生成的文本为`指定语言`（使用百度翻译，需在`config/api.json`中填写您的APPID和密钥）https://api.fanyi.baidu.com/doc/21    |
 
 ### config/api.json
 
@@ -111,21 +119,17 @@ http://127.0.0.1:7210/<prompt>
 
 **[EleutherAI/gpt-neo-125M · Hugging Face](https://huggingface.co/EleutherAI/gpt-neo-125M)**
 
-**[Transformers Installation](https://huggingface.co/docs/transformers/installation)**
+[Transformers Installation](https://huggingface.co/docs/transformers/installation)
 
-**[GPT Neo Document](https://huggingface.co/docs/transformers/model_doc/gpt_neo)**
+[GPT Neo Document](https://huggingface.co/docs/transformers/model_doc/gpt_neo)
 
-[GitHub - luoyily/MoeTTS: Speech synthesis model /inference GUI repo for galgame characters based on Tacotron2, Hifigan and VITS](https://github.com/luoyily/MoeTTS)
+[快速上手 &#8212; Flask 中文文档 (2.1.2)](https://dormousehole.readthedocs.io/en/2.1.2/quickstart.html)
 
-**[快速上手 &#8212; Flask 中文文档 (2.1.2)](https://dormousehole.readthedocs.io/en/2.1.2/quickstart.html)**
+[learn-python3/do_flask.py at master · michaelliao/learn-python3 · GitHub](https://github.com/michaelliao/learn-python3/blob/master/samples/web/do_flask.py)
 
-**[learn-python3/do_flask.py at master · michaelliao/learn-python3 · GitHub](https://github.com/michaelliao/learn-python3/blob/master/samples/web/do_flask.py)**
+**[GitHub - Animenosekai/translate: A module grouping multiple translation APIs](https://github.com/Animenosekai/translate)**
 
-**[Documents - 百度翻译开放平台](https://api.fanyi.baidu.com/doc/21)**
-
-[GitHub - jieran233/Live2d-model](https://github.com/jieran233/Live2d-model)
-
-[live2d_waifu - Gitee](https://gitee.com/jieran233/live2d_waifu)
+[Documents - 百度翻译开放平台](https://api.fanyi.baidu.com/doc/21)
 
 ......and more, thanks.
 

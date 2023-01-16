@@ -4,8 +4,16 @@
     "no-lf": true,
     "no-prompt": true,
     "answer-only": false,
-    "trans-ipt": "zh",
-    "trans-opt": "zh",
-    "trans-opt2": "jp",
-    "length": 12
+    "length": 12,
+    "translator": "google",
+    "google-trans": {
+        "trans-ipt": "zh",
+        "trans-opt": "zh",
+        "trans-opt2": "jpn"
+    },
+    "baidu-trans": {
+        "trans-ipt": "zh",
+        "trans-opt": "zh",
+        "trans-opt2": "jp"
+    }
 }

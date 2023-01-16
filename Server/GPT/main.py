@@ -5,6 +5,7 @@ from time import sleep
 from flask import Flask
 # from flask import request
 from markupsafe import escape
+from translatepy.translators.google import GoogleTranslate
 
 
 class Config:
@@ -73,12 +74,64 @@ class Utils:
             return raw_text
         return j['trans_result'][0]['dst']
 
+    def translate_google(self, query, target, source='eng'):
+        trans = GoogleTranslate()
+        while_ = True
+        i = 0
+        r = query
+        while while_:
+            try:
+                r = trans.translate(text=query, destination_language=target, source_language=source)
+                while_ = False
+            except Exception as e:
+                print(e.args)
+                while_ = True
+            if i > 0:
+                sleep(3)
+            i = i + 1
+        return str(r)
+
+    def trans(self, text, which):
+        translator = config.read('settings', 'translator')
+        if which == 'ipt':
+            if translator == 'google':
+                r = utils.translate_google(text, 'eng', config.read('settings', 'google-trans')['trans-ipt'])
+                return r
+            elif translator == 'baidu':
+                r = utils.translate_baidu(text, 'en', config.read('settings', 'baidu-trans')['trans-ipt'])
+                return r
+            else:
+                return text
+        elif which == 'opt':
+            if translator == 'google':
+                target = config.read('settings', 'google-trans')['trans-opt']
+                r = utils.translate_google(text, target)
+                return r
+            elif translator == 'baidu':
+                target = config.read('settings', 'baidu-trans')['trans-opt']
+                r = utils.translate_baidu(text, target)
+                return r
+            else:
+                return text
+        elif which == 'opt2':
+            if translator == 'google':
+                target = config.read('settings', 'google-trans')['trans-opt2']
+                r = utils.translate_google(text, target)
+                return r
+            elif translator == 'baidu':
+                target = config.read('settings', 'baidu-trans')['trans-opt2']
+                r = utils.translate_baidu(text, target)
+                return r
+            else:
+                return text
+        else:
+            return text
 
 def process(prompt):
     # 前处理
-    if config.read('settings', 'trans-ipt') is not None:  # 翻译输入
+    if config.read('settings', config.read('settings', 'translator') + '-trans')['trans-ipt'] is not None:  # 翻译输入
         print(":: Translating input...")
-        prompt = utils.translate_baidu(prompt, 'en', config.read('settings', 'trans-ipt'))
+        prompt = utils.trans(prompt, 'ipt')
         print(prompt)
 
     if config.read('settings', 'conversation') is True:  # 对话模式
@@ -130,15 +183,15 @@ def process(prompt):
             text = base64.urlsafe_b64encode(text.encode('UTF-8')).decode('UTF-8')
             return text
 
-        tr = config.read('settings', 'trans-opt')
+        tr = config.read('settings', config.read('settings', 'translator') + '-trans')['trans-opt']
         if tr is not None:  # 翻译输出
             print(":: Translating output to {}...".format(tr))
-            txt_trans = utils.translate_baidu(txt, tr)
+            txt_trans = utils.trans(txt, 'opt')
 
-            tr_2 = config.read('settings', 'trans-opt2')
+            tr_2 = config.read('settings', config.read('settings', 'translator') + '-trans')['trans-opt2']
             if tr_2 is not None:  # 翻译输出2
                 print(":: Translating output to {}...".format(tr_2))
-                txt_trans_2 = utils.translate_baidu(txt, tr_2)
+                txt_trans_2 = utils.trans(txt, 'opt2')
                 # 返回 JSON
                 return json.dumps({
                     "raw": pre_process_json(txt),
@@ -172,6 +225,11 @@ def main():
 
     config = Config()
     utils = Utils()
+
+    # print(":: Testing Google translate...")
+    # print(utils.translate_google('hello', 'zh', 'eng'))
+    # print(":: Testing Baidu translate...")
+    # print(utils.translate_baidu('hello', 'zh', 'en'))
 
     print(":: Importing module...")
     from transformers import pipeline  # 导入模块

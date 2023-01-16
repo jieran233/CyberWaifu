@@ -182,7 +182,10 @@ class Ui_MainWindow(QMainWindow, Ui_MainWindow):
         except Exception as e:
             print(e.args)
         opt['zh'] = util.base64_decode(o_dic['zh'])
-        opt['jp'] = util.base64_decode(o_dic['jp'])
+        if 'jp' in o_dic:
+            opt['jp'] = util.base64_decode(o_dic['jp'])
+        elif 'jpn' in o_dic:
+            opt['jp'] = util.base64_decode(o_dic['jpn'])
 
         if srv['text-voice-sync'] is not True:
             show_text()  # 显示中文文本
