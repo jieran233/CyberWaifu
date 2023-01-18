@@ -22,18 +22,18 @@ from mainWindow import *
 
 
 class Config:
-    config_files = {'servers': 'config/settings.json'}
-    dicts = {'servers': {}}
+    config_files = {'settings': 'config/settings.json'}
+    dicts = {'settings': {}}
 
     def __init__(self):
-        with open(self.config_files['servers'], 'r') as f:
-            self.dicts['servers'] = json.loads(f.read())
+        with open(self.config_files['settings'], 'r') as f:
+            self.dicts['settings'] = json.loads(f.read())
 
     def read(self, file, key):
         return self.dicts[file][key]
 
-    def srv(self):
-        return self.dicts['servers']
+    def read_settings(self):
+        return self.dicts['settings']
 
 
 class Utils:
@@ -61,7 +61,7 @@ class Utils:
 
     def get_gpt_json(self, txt):
         txt = self.url_text_encode(txt)
-        url = srv['gpt'] + '/' + txt
+        url = settings['gpt'] + '/' + txt
         try:
             r = requests.get(url=url)
         except Exception as e:
@@ -73,7 +73,7 @@ class Utils:
 
     def get_tts_wav(self, txt):
         txt = self.url_text_encode(txt)
-        url = srv['tts'] + '/' + txt
+        url = settings['tts'] + '/' + txt
         try:
             r = requests.get(url=url)
         except Exception as e:
@@ -122,7 +122,7 @@ class Ui_MainWindow(QMainWindow, Ui_MainWindow):
 
         # QWebEngienView -> self.widget
         webview = QWebEngineView(self.widget)
-        l2d_url = srv['l2d']
+        l2d_url = settings['l2d']
         webview.load(QUrl(l2d_url))  # 加载Live2D页面
         # self.setCentralWidget(self.browser)
         webview.resize(800, 380)
@@ -130,7 +130,7 @@ class Ui_MainWindow(QMainWindow, Ui_MainWindow):
 
         # QLabel -> self.widget_2
         label = QLabel(self.widget_2)
-        pixmap = QPixmap('res/hiyori.80px.png')
+        pixmap = QPixmap(settings['waifu-pic'])
         label.setPixmap(pixmap)
         label.setToolTip('Click to replay voice')  # 设置悬停提示
 
@@ -141,12 +141,12 @@ class Ui_MainWindow(QMainWindow, Ui_MainWindow):
         self.label.setWordWrap(True)  # Label自动换行
         self.textEdit.setFocus()  # 输入文本框获取焦点
 
-        self.tabWidget.setTabText(0, srv['waifu-name'])
+        self.tabWidget.setTabText(0, settings['waifu-name'])
 
         # 服务器连接状况
-        status = ":: GPT Server | {} | {}".format(srv['gpt'], util.test_connection(srv['gpt'])) + '\n' + \
-                 ":: TTS Server | {} | {}".format(srv['tts'], util.test_connection(srv['tts'])) + '\n' + \
-                 ":: Live2D Server | {} | {}".format(srv['l2d'], util.test_connection(srv['l2d'])) + '\n'
+        status = ":: GPT Server | {} | {}".format(settings['gpt'], util.test_connection(settings['gpt'])) + '\n' + \
+                 ":: TTS Server | {} | {}".format(settings['tts'], util.test_connection(settings['tts'])) + '\n' + \
+                 ":: Live2D Server | {} | {}".format(settings['l2d'], util.test_connection(settings['l2d'])) + '\n'
         print(status)
         self.label.setText(status)
 
@@ -168,7 +168,7 @@ class Ui_MainWindow(QMainWindow, Ui_MainWindow):
     def do(self):  # 请求
         ipt = self.textEdit.toPlainText()
         def show_text():
-            if srv['show-both-zh-jp'] is True:
+            if settings['show-both-zh-jp'] is True:
                 self.label.setText(opt['zh'] + '\n\n' + opt['jp'])
             else:
                 self.label.setText(opt['zh'])
@@ -187,7 +187,7 @@ class Ui_MainWindow(QMainWindow, Ui_MainWindow):
         elif 'jpn' in o_dic:
             opt['jp'] = util.base64_decode(o_dic['jpn'])
 
-        if srv['text-voice-sync'] is not True:
+        if settings['text-voice-sync'] is not True:
             show_text()  # 显示中文文本
 
         status = ':: Now waiting TTS...'
@@ -201,7 +201,7 @@ class Ui_MainWindow(QMainWindow, Ui_MainWindow):
 
         print(':: Done')
         self.setWindowTitle("CyberWaifu")
-        if srv['text-voice-sync'] is True:
+        if settings['text-voice-sync'] is True:
             show_text()  # 显示中文文本
         try:
             util.playsound(self.current_wav_path)  # 播放语音
@@ -228,10 +228,10 @@ class QLabel(QtWidgets.QLabel):
 
 
 if __name__ == '__main__':
-    global conf, util, srv, mainWindow
+    global conf, util, settings, mainWindow
     conf = Config()
     util = Utils()
-    srv = conf.srv()
+    settings = conf.read_settings()
 
     global wav_folder
     wav_folder = '.cache'

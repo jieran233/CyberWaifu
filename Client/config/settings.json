@@ -3,6 +3,7 @@
     "tts": "http://127.0.0.1:7211",
     "l2d": "http://127.0.0.1:8000",
     "waifu-name": "桃瀬ひより",
+    "waifu-pic": "res/hiyori.80px.png",
     "text-voice-sync": true,
     "show-both-zh-jp": true
 }

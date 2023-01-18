@@ -16,14 +16,15 @@ sudo pacman -S python-pyqt6 python-pyqt6-webengine
 
 (注意URL末尾没有`/`)
 
-|                     |                       |                              |
-| ------------------- | --------------------- | ---------------------------- |
-| `"gpt"`             | http://127.0.0.1:7210 | GPT server URL               |
-| `"tts"`             | http://127.0.0.1:7211 | TTS server URL               |
-| `"l2d"`             | http://127.0.0.1:8000 | Live2D server URL            |
-| `"waifu-name"`      | 桃瀬ひより                 | 将在 mainWindow 中被显示           |
-| `"text-voice-sync"` | `true`or`false`       | 显示文本和播放语音同时进行（等待语音生成完毕再显示文本） |
-| `"show-both-zh-jp"` | `true`or`false`       | 同时显示中文文本和日语文本                |
+|                     |                       |                                |
+| ------------------- | --------------------- | ------------------------------ |
+| `"gpt"`             | http://127.0.0.1:7210 | GPT server URL                 |
+| `"tts"`             | http://127.0.0.1:7211 | TTS server URL                 |
+| `"l2d"`             | http://127.0.0.1:8000 | Live2D server URL              |
+| `"waifu-name"`      | 桃瀬ひより                 | 将在 mainWindow 中被显示             |
+| `"waifu-pic"`       | res/hiyori.80px.png   | 将在 mainWindow 中被显示（位于窗口右下角的头像） |
+| `"text-voice-sync"` | `true`or`false`       | 显示文本和播放语音同时进行（等待语音生成完毕再显示文本）   |
+| `"show-both-zh-jp"` | `true`or`false`       | 同时显示中文文本和日语文本                  |
 
 ## References
 
