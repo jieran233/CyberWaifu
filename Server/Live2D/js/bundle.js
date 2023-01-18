@@ -1160,7 +1160,7 @@
         value: !0
     });
     var r = i(0);
-    e.ViewMaxScale = 2, e.ViewMinScale = .8, e.ViewLogicalLeft = -1, e.ViewLogicalRight = 1, e.ViewLogicalMaxLeft = -2, e.ViewLogicalMaxRight = 2, e.ViewLogicalMaxBottom = -2, e.ViewLogicalMaxTop = 2, e.ResourcesPath = "live2d-model/", e.BackImageName = "back_class_normal.png", e.ModelDir = ["Hiyori", "kesshouban"], e.ModelDirSize = e.ModelDir.length, e.MotionGroupIdle = "Idle", e.MotionGroupTapBody = "TapBody", e.MotionGroupTapHead = "TapHead", e.HitAreaNameHead = "Head", e.HitAreaNameBody = "Body", e.PriorityNone = 0, e.PriorityIdle = 1, e.PriorityNormal = 2, e.PriorityForce = 3, e.DebugLogEnable = !0, e.DebugTouchLogEnable = !1, e.CubismLoggingLevel = r.LogLevel.LogLevel_Verbose
+    e.ViewMaxScale = 2, e.ViewMinScale = .8, e.ViewLogicalLeft = -1, e.ViewLogicalRight = 1, e.ViewLogicalMaxLeft = -2, e.ViewLogicalMaxRight = 2, e.ViewLogicalMaxBottom = -2, e.ViewLogicalMaxTop = 2, e.ResourcesPath = "live2d-model/", e.BackImageName = "back_class_normal.png", e.ModelDir = ["Hiyori"], e.ModelDirSize = e.ModelDir.length, e.MotionGroupIdle = "Idle", e.MotionGroupTapBody = "TapBody", e.MotionGroupTapHead = "TapHead", e.HitAreaNameHead = "Head", e.HitAreaNameBody = "Body", e.PriorityNone = 0, e.PriorityIdle = 1, e.PriorityNormal = 2, e.PriorityForce = 3, e.DebugLogEnable = !0, e.DebugTouchLogEnable = !1, e.CubismLoggingLevel = r.LogLevel.LogLevel_Verbose
 }, function (t, e, i) {
     "use strict";
     Object.defineProperty(e, "__esModule", {
