@@ -8,15 +8,15 @@ Pillow==9.2.0
 protobuf==3.20.0
 pypinyin==0.47.1
 scipy==1.7.3
-tensorflow-cpu~=1.15
+tensorflow-cpu~=1.15.0
 tqdm==4.64.1
 SoundFile==0.10.3.post1
 
 matplotlib
 # Windows need MSVC build tool
-pyopenjtalk
+pyopenjtalk~=0.2.0
 
-torch==1.12.0
+torch~=1.12.0
 # wget "http://download.pytorch.org/whl/cpu/torch-1.12.0%2Bcpu-cp37-cp37m-linux_x86_64.whl"
 # pip3 install torch-1.12.0+cpu-cp37-cp37m-linux_x86_64.whl
 
