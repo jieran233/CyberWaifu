@@ -48,6 +48,10 @@ def text_to_sequence(text, symbols=None):
 class Tacotron2:
     def __init__(self, tts_model, hifigan_model):
         print(":: Initializing...")
+
+        tts_model = os.path.realpath(tts_model)
+        hifigan_model = os.path.realpath(hifigan_model)
+
         siblings = os.cpu_count()
         torch.set_num_threads(siblings)
         torch.set_num_interop_threads(siblings)
@@ -79,8 +83,9 @@ class Tacotron2:
             # print("Complete.")
             return checkpoint_dict
 
-        hifigan_cfg = '/'.join(hifigan_model.split('/')[:-1])
-        config_file = (hifigan_cfg + '/config.json')
+        # hifigan_cfg = '/'.join(hifigan_model.split('/')[:-1])
+        # config_file = (hifigan_cfg + '/config.json')
+        config_file = os.path.join(os.path.split(hifigan_model)[0], 'config.json')
         with open(config_file) as f:
             data = f.read()
         json_config = json.loads(data)
@@ -119,6 +124,13 @@ def main():
 
     global wav_folder
     wav_folder = 'static'
+    wav_folder = os.path.realpath(wav_folder)
+
+    # 创建缓存文件夹
+    try:
+        os.mkdir(wav_folder)
+    except Exception as e:
+        print(e.args)
 
     # 清理缓存
     print(":: Cleaning cache...")
@@ -128,12 +140,6 @@ def main():
             os.remove(os.path.join(wav_folder, i))
         except Exception as e:
             print(e.args)
-
-    # 创建缓存文件夹
-    try:
-        os.mkdir(wav_folder)
-    except Exception as e:
-        print(e.args)
 
     @app.route("/<prompt>")
     def receive_request(prompt):
